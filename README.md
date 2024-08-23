@@ -1,4 +1,4 @@
-![logo](https://github.com/musaddique333/333SyncLab/client/assets/logo.png)
+![logo](https://github.com/musaddique333/333SyncLab/blob/musaddique/client/src/assets/logo.png)
 
 # 333SyncLab
 
