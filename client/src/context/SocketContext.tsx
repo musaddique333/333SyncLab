@@ -28,6 +28,7 @@ export const useSocket = (): SocketContextType => {
 }
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
+console.log("Backend URL:", BACKEND_URL) // Check this log
 
 const SocketProvider = ({ children }: { children: ReactNode }) => {
     const {
@@ -38,12 +39,14 @@ const SocketProvider = ({ children }: { children: ReactNode }) => {
         drawingData,
         setDrawingData,
     } = useAppContext()
+    
+    // Ensure the socket instance is correctly created with the BACKEND_URL
     const socket: Socket = useMemo(
         () =>
             io(BACKEND_URL, {
                 reconnectionAttempts: 2,
             }),
-        [],
+        [BACKEND_URL], // Dependency on BACKEND_URL
     )
 
     const handleError = useCallback(
