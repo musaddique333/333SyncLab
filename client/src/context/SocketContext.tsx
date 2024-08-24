@@ -40,13 +40,13 @@ const SocketProvider = ({ children }: { children: ReactNode }) => {
         setDrawingData,
     } = useAppContext()
     
-    // Ensure the socket instance is correctly created with the BACKEND_URL
     const socket: Socket = useMemo(
         () =>
             io(BACKEND_URL, {
-                reconnectionAttempts: 2,
+                transports: ['websocket'],
+                withCredentials: true,
             }),
-        [BACKEND_URL], // Dependency on BACKEND_URL
+        [BACKEND_URL]
     )
 
     const handleError = useCallback(
