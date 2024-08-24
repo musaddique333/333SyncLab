@@ -46,6 +46,8 @@ Check out the live preview of the project [here](https://333SyncLab-live.vercel.
 - ![Git](https://img.shields.io/badge/GIT-E44C30?style=for-the-badge&logo=git&logoColor=white)
 - ![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)
 - ![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)
+- ![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)
+- ![Vercel](https://img.shields.io/badge/Render-0074D9?style=for-the-badge&logo=cloud&logoColor=white)
 
 ## ⚙️ Installation
 
