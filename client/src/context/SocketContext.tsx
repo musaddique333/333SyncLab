@@ -17,6 +17,7 @@ import { toast } from "react-hot-toast"
 import { Socket, io } from "socket.io-client"
 import { useAppContext } from "./AppContext"
 
+// Create a context for the socket
 const SocketContext = createContext<SocketContextType | null>(null)
 
 export const useSocket = (): SocketContextType => {
@@ -27,6 +28,7 @@ export const useSocket = (): SocketContextType => {
     return context
 }
 
+// Ensure the backend URL is correctly retrieved from environment variables
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
 
 const SocketProvider = ({ children }: { children: ReactNode }) => {
@@ -38,22 +40,24 @@ const SocketProvider = ({ children }: { children: ReactNode }) => {
         drawingData,
         setDrawingData,
     } = useAppContext()
+    
+    // Create a socket instance with proper configuration
     const socket: Socket = useMemo(
-        () =>
-            io(BACKEND_URL, {
-                reconnectionAttempts: 2,
-            }),
-        [],
+        () => io(BACKEND_URL, {
+            reconnectionAttempts: 5, // Increased reconnection attempts
+            transports: ['websocket'], // Specify the transport method
+        }),
+        [BACKEND_URL] // Ensure BACKEND_URL is included in dependency array
     )
 
     const handleError = useCallback(
         (err: any) => {
-            console.log("socket error", err)
+            console.error("Socket error:", err) // Use console.error for error logs
             setStatus(USER_STATUS.CONNECTION_FAILED)
             toast.dismiss()
             toast.error("Failed to connect to the server")
         },
-        [setStatus],
+        [setStatus]
     )
 
     const handleUsernameExist = useCallback(() => {
@@ -75,7 +79,7 @@ const SocketProvider = ({ children }: { children: ReactNode }) => {
                 toast.loading("Syncing data, please wait...")
             }
         },
-        [setCurrentUser, setStatus, setUsers],
+        [setCurrentUser, setStatus, setUsers]
     )
 
     const handleUserLeft = useCallback(
@@ -83,21 +87,21 @@ const SocketProvider = ({ children }: { children: ReactNode }) => {
             toast.success(`${user.username} left the room`)
             setUsers(users.filter((u: User) => u.username !== user.username))
         },
-        [setUsers, users],
+        [setUsers, users]
     )
 
     const handleRequestDrawing = useCallback(
         ({ socketId }: { socketId: SocketId }) => {
             socket.emit(SocketEvent.SYNC_DRAWING, { socketId, drawingData })
         },
-        [drawingData, socket],
+        [drawingData, socket]
     )
 
     const handleDrawingSync = useCallback(
         ({ drawingData }: { drawingData: DrawingData }) => {
             setDrawingData(drawingData)
         },
-        [setDrawingData],
+        [setDrawingData]
     )
 
     useEffect(() => {
